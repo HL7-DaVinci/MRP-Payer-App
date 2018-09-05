@@ -39,9 +39,10 @@ FHIR.oauth2.ready(function(smart){
                 promise.then(function () {
                     return smart.api.read({type: "Task", id: taskID});
                 }).then(function(t){
+                    var id = t.data.id;
                     var type = "Post-discharge";
                     if (t.data.code.coding[0].code !== "1111F") type = "Other";
-                    list.innerHTML +=  "<tr><td>" + date + "</td><td>" + type +  "</td><td></td><td></td><td></td></tr>";
+                    list.innerHTML +=  "<tr><td>" + date + "</td><td>" + id + "</td><td>" + type +  "</td></tr>";
                     return smart.api.read({type: "Practitioner", id: t.data.owner.reference.split("/")[1]});
                 //}).then(function(p){
                 //    console.log(p.data);
