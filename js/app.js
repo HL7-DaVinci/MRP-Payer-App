@@ -22,33 +22,21 @@ FHIR.oauth2.ready(function(smart){
         displayPatient (pt);
     });
     smart.patient.api.fetchAll(
-        { type: "MeasureReport" }
+        { type: "Task" }
     ).then(function(reports) {
         var promise = Promise.resolve();
         reports
-            .sort(function(a,b){
-                return a.date < b.date;
-            }).filter(function(a){
-                  return a.id !== "measure-mrp" && a.date >= "2018-09-01T03:04:39.000+00:00" && a.patient.reference === "Patient/" + smart.patient.id;
+            .filter(function(a){
+                return a.for.reference === "Patient/" + smart.patient.id;
+            }).sort(function(a,b){
+                return a.authoredOn < b.authoredOn;
             }).forEach(function(r){
-                var date = r.date.split('T');
+                var date = r.authoredOn.split('T');
                 if (date.length > 1) date = date[0] + " " + date[1].split('.')[0];
-                var taskID = r.evaluatedResources.extension
-                              .find(e => e.url==='http://hl7.org/fhir/ig/davinci/StructureDefinition/extension-referenceAny')
-                              .valueReference.reference.split("/")[1];
-                promise.then(function () {
-                    return smart.api.read({type: "Task", id: taskID});
-                }).then(function(t){
-                    var id = t.data.id;
-                    var type = "Post-discharge";
-                    if (t.data.code.coding[0].code !== "1111F") type = "Other";
-                    list.innerHTML +=  "<tr><td>" + date + "</td><td>" + id + "</td><td>" + type +  "</td></tr>";
-                    return smart.api.read({type: "Practitioner", id: t.data.owner.reference.split("/")[1]});
-                //}).then(function(p){
-                //    console.log(p.data);
-                //    var name = getPatientName(p.data);
-                    
-                });
+                var id = r.id;
+                var type = "Post-discharge";
+                if (r.code.coding[0].code !== "1111F") type = "Other";
+                list.innerHTML +=  "<tr><td>" + date + "</td><td>" + id + "</td><td>" + type +  "</td></tr>";
             });
         promise.then(function(){
             $('#loader').hide();   
