@@ -20,6 +20,7 @@ artifacts:
   files:
     - index.html
     - launch.html
+    - favicon.ico
     - node_modules/**/*
     - css/**/*
     - js/**/*
