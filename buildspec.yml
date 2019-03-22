@@ -20,7 +20,7 @@ artifacts:
   files:
     - index.html
     - launch.html
-    - node_modules/
-    - css/
-    - js/
-    - lib/
+    - node_modules/**/*
+    - css/**/*
+    - js/**/*
+    - lib/**/*
