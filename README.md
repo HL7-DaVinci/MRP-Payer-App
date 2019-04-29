@@ -30,4 +30,4 @@ Redirect URI is http://127.0.0.1:8080.
 A Dockerfile is included for customization to easily distribute complete application images. For example:
 
     docker build -t hspc/davinci-mrp-payer:latest .
-    docker run -it --name davinci-mrp-payer --rm -p 9090:9090 hspc/davinci-mrp-payer:latest
+    docker run -it --name davinci-mrp-payer --rm -p 8080:8080 hspc/davinci-mrp-payer:latest
