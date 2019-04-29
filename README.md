@@ -25,3 +25,9 @@ You can stop the server if needed using <kbd>Ctrl+C</kbd>.
 
 At this point your Launch URI is http://127.0.0.1:8080/launch.html and your
 Redirect URI is http://127.0.0.1:8080.
+
+## Building Releases
+A Dockerfile is included for customization to easily distribute complete application images. For example:
+
+    docker build -t hspc/davinci-mrp-payer:latest .
+    docker run -it --name davinci-mrp-payer --rm -p 9090:9090 hspc/davinci-mrp-payer:latest
