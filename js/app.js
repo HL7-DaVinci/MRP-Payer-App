@@ -1,4 +1,5 @@
 // TODO: Convert dates from UTC to local timezone
+// TODO: Limit results to last 24 hours
 
 var list = document.getElementById('list');
 
@@ -24,7 +25,6 @@ FHIR.oauth2.ready(function(smart){
     smart.patient.api.fetchAll(
         { type: "Task" }
     ).then(function(reports) {
-        var promise = Promise.resolve();
         reports
             .filter(function(a){
                 return a.for.reference === "Patient/" + smart.patient.id;
@@ -38,9 +38,7 @@ FHIR.oauth2.ready(function(smart){
                 if (r.code.coding[0].code !== "1111F") type = "Other";
                 list.innerHTML +=  "<tr><td>" + date + "</td><td>" + id + "</td><td>" + type +  "</td></tr>";
             });
-        promise.then(function(){
-            $('#loader').hide();   
-            $('#review-screen').show();
-        });
+        $('#loader').hide();   
+        $('#review-screen').show();
     });
 });
